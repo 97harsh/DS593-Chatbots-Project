@@ -26,6 +26,7 @@
 #
 #         return []
 import csv
+import os
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
@@ -68,13 +69,14 @@ class FindStudentIdAction(Action):
 
         # Search for the student id in the CSV file
         if first_name and last_name:
-          with open("storage/students.csv", mode="r", encoding='utf-8-sig') as f:
-              reader = csv.DictReader(f)
-              for row in reader:
-                  if row["first_name"] == first_name and row["last_name"] == last_name:
-                      student_id = row["student_id"]
-                      dispatcher.utter_message(text=f"Your student ID is {student_id}")
-                      return [SlotSet("student_id", student_id)]
+          if os.path.exists("storage/students.csv"):
+            with open("storage/students.csv", mode="r", encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if row["first_name"] == first_name and row["last_name"] == last_name:
+                        student_id = row["student_id"]
+                        dispatcher.utter_message(text=f"Your student ID is {student_id}")
+                        return [SlotSet("student_id", student_id)]
           
           # If the student is not found in the CSV file, notify the user
         dispatcher.utter_message(text="Sorry, I could not find your student ID. Please contact your school administrator for assistance.")
