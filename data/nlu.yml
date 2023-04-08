@@ -1,0 +1,64 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hi
+    - hello
+    - hey there
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - ta ta
+- intent: report_covid_status
+  examples: |
+    - I want to report my covid status
+    - I did my covid test
+- intent: inform_covid_status
+  examples: |
+    - I tested [positive](status) for COVID
+    - My COVID test came back [negative](status)
+    - I have tested [positive](status)
+- intent: inform_test_type
+  examples: |
+    - I took a [PCR](test_type) test
+    - My test was a [PCR](test_type) test
+    - I got tested with a [rapid](test_type) test
+- intent: inform_student_id
+  examples: |
+    - My student id is [123456](student_id)
+    - ID no. [123456](student_id)
+- intent: find_student_id
+  examples: |
+    - I forgot my student ID
+    - Can you help me find my student ID?
+    - I can't remember my ID
+    - What is my student ID?
+    - I need to know my ID
+    - My ID number is lost
+- intent: inform_full_name
+  examples: |
+    - My name is [John](first_name) [Doe](last_name)
+    - I am [Sara](first_name) [Singh](last_name)
+    - I go by [Amir](first_name) [Khan](last_name)
+    - My full name is [Michael](first_name) [Jordon](last_name)
+    - Hi, I'm [Gustavo](first_name) [Ramirez](last_name)
+    - My name is [Shalini](first_name) [Tiwari](last_name)
+    - You can call me [Ryan](first_name) [Reynolds](last_name)
+    - I am [Brad](first_name) [Pitt](last_name)
+    - My name is [Jennifer](first_name) [Sharma](last_name)
+    - Hi, my first name is [Taylor](first_name) and my last name is [Swift](last_name)
+
+regex:
+- student_id: /[0-9]{6}/
+- first_name: /[A-Z][a-z]+/
+- last_name: /[A-Z][a-z]+/
+
+# Lookup values
+- lookup: test_type
+  examples: |
+    - PCR
+    - rapid
+    - antigen
+    - antibody

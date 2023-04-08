@@ -1,0 +1,40 @@
+version: "3.1"
+
+stories:
+
+- story: Report COVID status and ask about test type
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: report_covid_status
+  - action: utter_ask_student_id
+  - intent: inform_student_id
+    entities:
+    - student_id: "123456"
+  - action: utter_acknowledge_student_id
+  - action: utter_ask_covid_status
+  - intent: inform_covid_status
+    entities:
+      - status: "positive"
+  - action: utter_acknowledge_covid_status
+  - action: utter_ask_test_type
+  - intent: inform_test_type
+    entities:
+      - test_type: "PCR"
+  - action: action_store_covid_status
+  - action: utter_goodbye
+
+- story: Find student ID
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: find_student_id
+  - action: utter_ask_student_name
+  - intent: inform_full_name
+    entities:
+      - first_name
+      - last_name
+  - action: action_find_student_id
+  - slot_was_set:
+    - student_id: "123456"
+  - action: utter_goodbye

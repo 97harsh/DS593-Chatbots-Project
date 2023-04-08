@@ -1,0 +1,82 @@
+# This files contains your custom actions which can be used to run
+# custom Python code.
+#
+# See this guide on how to implement these action:
+# https://rasa.com/docs/rasa/custom-actions
+
+
+# This is a simple example for a custom action which utters "Hello World!"
+
+# from typing import Any, Text, Dict, List
+#
+# from rasa_sdk import Action, Tracker
+# from rasa_sdk.executor import CollectingDispatcher
+#
+#
+# class ActionHelloWorld(Action):
+#
+#     def name(self) -> Text:
+#         return "action_hello_world"
+#
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#
+#         dispatcher.utter_message(text="Hello World!")
+#
+#         return []
+import csv
+from typing import Any, Text, Dict, List
+from rasa_sdk import Action, Tracker
+from rasa_sdk.events import SlotSet
+from rasa_sdk.executor import CollectingDispatcher
+
+class StoreCovidStatusAction(Action):
+    def name(self) -> Text:
+        return "action_store_covid_status"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Retrieve the slot values
+        student_id = tracker.get_slot("student_id")
+        status = tracker.get_slot("status")
+        test_type = tracker.get_slot("test_type")
+
+        # Write to CSV file
+        with open("covid_status.csv", mode="a") as f:
+            writer = csv.writer(f)
+            writer.writerow([student_id, status, test_type])
+
+        # Send a message to the user confirming that the information was stored
+        dispatcher.utter_message(text="Thank you for providing your COVID test result. Your information has been recorded.")
+
+        return []
+
+class FindStudentIdAction(Action):
+    def name(self) -> Text:
+        return "action_find_student_id"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Retrieve the student's first name and last name
+        first_name = tracker.slots.get("first_name")
+        last_name = tracker.slots.get("last_name")
+
+        # Search for the student id in the CSV file
+        if first_name and last_name:
+          with open("students.csv", mode="r", encoding='utf-8-sig') as f:
+              reader = csv.DictReader(f)
+              for row in reader:
+                  if row["first_name"] == first_name and row["last_name"] == last_name:
+                      student_id = row["student_id"]
+                      dispatcher.utter_message(text=f"Your student ID is {student_id}")
+                      return [SlotSet("student_id", student_id)]
+          
+          # If the student is not found in the CSV file, notify the user
+        dispatcher.utter_message(text="Sorry, I could not find your student ID. Please contact your school administrator for assistance.")
+        return [SlotSet("student_id", None)]
+        

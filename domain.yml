@@ -1,0 +1,100 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - bot_challenge
+  - mood_great
+  - mood_unhappy
+  - affirm
+  - deny
+  - report_covid_status
+  - inform_covid_status
+  - inform_test_type
+  - inform_student_id
+  - inform_full_name
+  - find_student_id
+
+entities:
+  - status
+  - test_type
+  - student_id
+  - first_name
+  - last_name
+
+slots:
+  status:
+    type: categorical
+    values:
+    - "positive"
+    - "negative"
+    mappings:
+    - type: from_entity
+      entity: status
+  test_type:
+    type: categorical
+    values:
+    - "PCR"
+    - "rapid"
+    - "antigen"
+    - "antibody"
+    mappings:
+    - type: from_entity
+      entity: test_type
+  student_id:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: student_id
+  first_name:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: first_name
+  last_name:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: last_name
+
+
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+  utter_ask_covid_status:
+    - text: "Can you please tell me your current COVID status?"
+  utter_acknowledge_covid_status:
+    - text: "Thank you for letting me know. What type of COVID test did you take?"
+  utter_ask_test_type:
+    - text: "Which type of test was it, PCR or rapid?"
+  utter_acknowledge_test_type:
+    - text: "Great, thanks for providing that information!"
+  utter_acknowledge_student_id:
+    - text: "Thank you for providing your Student ID."
+  utter_ask_student_id:
+    - text: "What is your student ID?"
+  utter_ask_student_name:
+    - text: "Can you please provide me with your first name and last name?"
+  utter_student_id:
+    - text: "Thank you! Your student ID is {student_id}."
+  utter_goodbye:
+    - text: "Good, have a great day!"
+
+actions:
+  - utter_greet
+  - utter_ask_covid_status
+  - utter_acknowledge_covid_status
+  - utter_ask_test_type
+  - utter_acknowledge_test_type
+  - utter_goodbye
+  - action_store_covid_status
+  - action_find_student_id
+  - utter_ask_student_name
+  - utter_student_id
+  - utter_ask_student_id
+  - utter_acknowledge_student_id
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
