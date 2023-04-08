@@ -45,7 +45,7 @@ class StoreCovidStatusAction(Action):
         test_type = tracker.get_slot("test_type")
 
         # Write to CSV file
-        with open("covid_status.csv", mode="a") as f:
+        with open("storage/covid_status.csv", mode="a") as f:
             writer = csv.writer(f)
             writer.writerow([student_id, status, test_type])
 
@@ -68,7 +68,7 @@ class FindStudentIdAction(Action):
 
         # Search for the student id in the CSV file
         if first_name and last_name:
-          with open("students.csv", mode="r", encoding='utf-8-sig') as f:
+          with open("storage/students.csv", mode="r", encoding='utf-8-sig') as f:
               reader = csv.DictReader(f)
               for row in reader:
                   if row["first_name"] == first_name and row["last_name"] == last_name:
