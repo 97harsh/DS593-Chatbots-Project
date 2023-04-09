@@ -130,4 +130,9 @@ dmypy.json
 
 # Storage for data files
 storage/
+
+# Storing results
 results/
+
+# Rasa cache
+.rasa/
