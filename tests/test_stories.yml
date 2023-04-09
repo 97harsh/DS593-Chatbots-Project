@@ -1,91 +1,56 @@
 #### This file contains tests to evaluate that your bot behaves as expected.
 #### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
 
-stories:
-- story: happy path 1
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
 
-- story: happy path 2
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
-  - user: |
-      bye-bye!
-    intent: goodbye
-  - action: utter_goodbye
-
-- story: sad path 1
-  steps:
-  - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      yes
-    intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      not really
-    intent: deny
-  - action: utter_goodbye
-
-- story: sad path 3
+- story: Test report COVID status and ask about test type
   steps:
   - user: |
       hi
     intent: greet
   - action: utter_greet
   - user: |
-      very terrible
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+      I want to report my COVID status
+    intent: report_covid_status
+  - action: utter_ask_student_id
   - user: |
-      no
-    intent: deny
+      My student ID is 123456
+    intent: inform_student_id
+    entities:
+      student_id: "123456"
+  - action: utter_acknowledge_student_id
+  - action: utter_ask_covid_status
+  - user: |
+      I tested positive for COVID
+    intent: inform_covid_status
+    entities:
+      status: "positive"
+  - action: utter_acknowledge_covid_status
+  - action: utter_ask_test_type
+  - user: |
+      I took a PCR test
+    intent: inform_test_type
+    entities:
+      test_type: "PCR"
+  - action: action_store_covid_status
   - action: utter_goodbye
 
-- story: say goodbye
+- story: Test find student ID
   steps:
   - user: |
-      bye-bye!
-    intent: goodbye
-  - action: utter_goodbye
-
-- story: bot challenge
-  steps:
+      hi
+    intent: greet
+  - action: utter_greet
   - user: |
-      are you a bot?
-    intent: bot_challenge
-  - action: utter_iamabot
+      I need to find my student ID
+    intent: find_student_id
+  - action: utter_ask_student_name
+  - user: |
+      My full name is John Doe
+    intent: inform_full_name
+    entities:
+      first_name: "John"
+      last_name: "Doe"
+  - action: action_find_student_id
+    slot_was_set:
+      student_id: "123456"
+      action: utter_goodbye

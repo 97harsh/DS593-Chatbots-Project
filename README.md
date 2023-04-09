@@ -20,6 +20,10 @@ To test if all your YAML files are in correct format you can:
 rasa data validate
 ```
 
+To test sample stories are corret:
+```
+rasa test
+```
 
 ## Supported Stories
 This chatbot currently supports the following stories:
