@@ -47,7 +47,7 @@ nlu:
     - My name is [Shalini](first_name) [Tiwari](last_name)
     - You can call me [Ryan](first_name) [Reynolds](last_name)
     - I am [Brad](first_name) [Pitt](last_name)
-    - My name is [Jennifer](first_name) [Sharma](last_name)
+    - My name is [Harsh](first_name) [Sharma](last_name)
     - Hi, my first name is [Taylor](first_name) and my last name is [Swift](last_name)
 
 regex:
