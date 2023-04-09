@@ -1,17 +1,38 @@
 recipe: default.v1
 assistant_id: 20230325-021950-weighted-cosine
 language: en 
+# pipeline:
+#   - name: "WhitespaceTokenizer"
+#   - name: "RegexFeaturizer"
+#   - name: "LexicalSyntacticFeaturizer"
+#   - name: "CountVectorsFeaturizer"
+#   - name: "CountVectorsFeaturizer"
+#     analyzer: "char_wb"
+#     min_ngram: 1
+#     max_ngram: 4
+#   - name: "DIETClassifier"
+#   - name: "EntitySynonymMapper"
+
+
+# pipeline:
+#   - name: SpacyNLP
+#     model: "en_core_web_md"
+#   - name: SpacyTokenizer # Tokenizer
+#   - name: RegexFeaturizer ## Featuriser For regex based entities
+#   - name: SpacyFeaturizer # Spacy Featuriser
+#   # - name: SpacyEntityExtractor # can only extract entities that pretrained Spacy model recognizes
+#   - name: DIETClassifier # Diet Classifier
+#     epochs: 100
+#     # entity_recognition: False # when using both spacy entity extractor and diet entity extractor, it provides entity from both
+
 pipeline:
-  - name: "WhitespaceTokenizer"
-  - name: "RegexFeaturizer"
-  - name: "LexicalSyntacticFeaturizer"
-  - name: "CountVectorsFeaturizer"
-  - name: "CountVectorsFeaturizer"
-    analyzer: "char_wb"
-    min_ngram: 1
-    max_ngram: 4
-  - name: "DIETClassifier"
-  - name: "EntitySynonymMapper"
+  - name: WhitespaceTokenizer
+  - name: LanguageModelFeaturizer # Bert can be used with any tokenizer
+    model_name: "bert"
+    model_weights: "rasa/LaBSE"
+  - name: DIETClassifier
+    epochs: 200
+
 
 policies: null
 # # No configuration for policies was provided. The following default policies were used to train your model.
