@@ -30,3 +30,7 @@ This chatbot currently supports the following stories:
 
 * Report COVID status and ask about test type
 * Find student ID
+
+## Have to test if pipeline is working
+* Add Test Stories to tests/test_stories.yml
+* Test using ```rasa data validate```
