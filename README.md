@@ -1,6 +1,16 @@
 # The perfect Chatbot
 ### A Rasa Application
 
+
+### How to install
+```
+pip install rasa
+pip install rasa[transformer]
+pip install transformers
+python -m spacy download en_core_web_md
+```
+
+### Working with the chatbot
 To start the chatbot using the command line
 ```
 rasa shell
