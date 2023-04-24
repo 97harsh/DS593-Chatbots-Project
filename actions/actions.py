@@ -32,6 +32,9 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+
 class StoreCovidStatusAction(Action):
     def name(self) -> Text:
         return "action_store_covid_status"
@@ -89,4 +92,27 @@ class FindStudentIdAction(Action):
           # If the student is not found in the CSV file, notify the user
         dispatcher.utter_message(text="Sorry, I could not find your student ID. Please contact your school administrator for assistance.")
         return [SlotSet("student_id", None)]
-        
+
+class RespondTest(Action):
+  def __init__(self):
+    super().__init__()
+    self.tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
+    self.model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
+
+  def name(self) -> Text:
+    return "action_utter_chitchat"
+  
+  def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    message = tracker.latest_message("text")
+    new_user_input_ids = tokenizer.encode(input(">> User:") + tokenizer.eos_token, return_tensors='pt')
+
+    # append the new user input tokens to the chat history
+    bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1) if step > 0 else new_user_input_ids
+
+    # generated a response while limiting the total chat history to 1000 tokens, 
+    chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
+    response = tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
+    dispatcher.utter_message(text=response)
+    return []

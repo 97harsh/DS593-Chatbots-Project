@@ -94,6 +94,7 @@ actions:
   - utter_student_id
   - utter_ask_student_id
   - utter_acknowledge_student_id
+  - action_utter_chitchat
 
 session_config:
   session_expiration_time: 60
