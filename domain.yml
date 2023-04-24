@@ -14,6 +14,7 @@ intents:
   - inform_student_id
   - inform_full_name
   - find_student_id
+  - chitchat
 
 entities:
   - status
