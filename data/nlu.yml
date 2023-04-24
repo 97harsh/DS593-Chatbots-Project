@@ -11,6 +11,11 @@ nlu:
     - bye
     - goodbye
     - ta ta
+- intent: chitchat
+  examples: |
+    - how's the weather?
+    - how's life?
+    - how're you?
 - intent: report_covid_status
   examples: |
     - I want to report my covid status

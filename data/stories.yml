@@ -38,3 +38,9 @@ stories:
   - slot_was_set:
     - student_id: "123456"
   - action: utter_goodbye
+
+- story: Chitchat
+  - intent: greet
+  - action: utter_greet
+  - intern: chitchat
+  - action: action_utter_chitchat
