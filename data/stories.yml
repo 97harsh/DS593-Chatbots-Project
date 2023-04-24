@@ -40,7 +40,8 @@ stories:
   - action: utter_goodbye
 
 - story: Chitchat
+  steps:
   - intent: greet
   - action: utter_greet
-  - intern: chitchat
+  - intent: chitchat
   - action: action_utter_chitchat
